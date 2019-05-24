@@ -5,7 +5,11 @@
  */
 package Conexiones;
 
+import Genetico.Individuo;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,8 +24,12 @@ import java.net.Socket;
  * 
  */
 public class Enviar {
-    Socket cliente;
-    public void enviarIndididuo(String ip){
-        
+    
+    public static void enviarIndididuo(String ip, int port, Individuo individuo) throws IOException{
+        Socket cliente= new Socket(ip, port);
+        ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
+        salida.writeObject(individuo);
+        cliente.close();
+        JOptionPane.showMessageDialog(null,"Se envió el mejor individuo");
     }
 }
