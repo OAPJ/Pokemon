@@ -6,6 +6,12 @@
 package GUI;
 
 import HerramientasImagenes.Conversion;
+import HerramientasImagenes.JFrameImagen;
+import io.ImageManager;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,13 +32,40 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form Menu
      */
     public Menu() {
+        setUndecorated(true);
         initComponents();
+        this.setLocationRelativeTo(null);
         this.buttonGroup1.add(jRadioButton1);
         this.jRadioButton1.setActionCommand("rojo");
         this.buttonGroup1.add(jRadioButton2);
         this.jRadioButton2.setActionCommand("verde");
         this.buttonGroup1.add(jRadioButton3);
         this.jRadioButton3.setActionCommand("azul");
+        
+        Image icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/fondo2.png"));
+        Icon fond = new ImageIcon(icon.getScaledInstance(fondo.getWidth(), fondo.getHeight(), Image.SCALE_DEFAULT));
+        fondo.setIcon(fond);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/comenzar.gif"));
+        Icon start = new ImageIcon(icon.getScaledInstance(jButton1.getWidth(), jButton1.getHeight(), Image.SCALE_DEFAULT));
+        jButton1.setIcon(start);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/close.png"));
+        Icon clos = new ImageIcon(icon.getScaledInstance(this.close.getWidth(), this.close.getHeight(), Image.SCALE_DEFAULT));
+        close.setIcon(clos);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/barra.png"));
+        Icon ba = new ImageIcon(icon.getScaledInstance(barra.getWidth(), barra.getHeight(), Image.SCALE_DEFAULT));
+        jButton1.setIcon(start);
+        mover mml = new mover(barra);
+        barra.addMouseListener(mml);
+        barra.addMouseMotionListener(mml);
+        barra.setIcon(ba);
+        barra.setOpaque(true);
+        barra.setSize(780, 20);
+        
+        
+        
     }
 
     /**
@@ -49,75 +82,58 @@ public class Menu extends javax.swing.JFrame {
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        close = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        barra = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(500, 300));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jRadioButton1.setText("Rojo");
+        jRadioButton1.setForeground(new java.awt.Color(255, 0, 0));
+        jRadioButton1.setText("Rojo (Maestro)");
+        getContentPane().add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, -1, -1));
 
+        jRadioButton2.setForeground(new java.awt.Color(0, 255, 0));
         jRadioButton2.setText("Verde");
+        getContentPane().add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, -1, -1));
 
+        jRadioButton3.setForeground(new java.awt.Color(0, 170, 255));
         jRadioButton3.setText("Azul");
+        getContentPane().add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, -1, -1));
 
-        jButton1.setText("Comenzar");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 90, 40));
 
-        jLabel1.setText("Maestro:");
+        close.setContentAreaFilled(false);
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 0, 30, 30));
 
-        jLabel2.setText("Puerto");
+        jTextField1.setBackground(new java.awt.Color(153, 153, 153));
+        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 59, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(5, 5, 5)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jRadioButton1)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jRadioButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jButton1))
-                .addContainerGap(66, Short.MAX_VALUE))
-        );
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Puerto:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, -1, 30));
+
+        barra.setBackground(new java.awt.Color(255, 255, 255));
+        barra.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 10));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 500, 310));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -125,23 +141,27 @@ public class Menu extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int i;
         try{
-            if((i=Integer.parseInt(this.jTextField1.getText()))>1024)
+            if((i=Integer.parseInt(this.jTextField1.getText()))>1024){
+                Image imagen = ImageManager.openImage();
+                Conversion.imagenAMatriz(imagen);
+                new JFrameImagen(imagen);
                 switch(this.buttonGroup1.getSelection().getActionCommand()){
                     case "rojo":
-                        new Maestro(i).setVisible(true);
+                        new Maestro(i, imagen).setVisible(true);
                         this.dispose();
                         break;
                     case "verde":
-                        new Secundario(Conversion.CanalColor.VERDE, i).setVisible(true);
+                        new Secundario(Conversion.CanalColor.VERDE, i, imagen).setVisible(true);
                         this.dispose();
                         break;
                     case "azul":
-                        new Secundario(Conversion.CanalColor.AZUL, i).setVisible(true);
+                        new Secundario(Conversion.CanalColor.AZUL, i, imagen).setVisible(true);
                         this.dispose();
                         break;
                     default:
                         break;
                 }
+            }
             else JOptionPane.showMessageDialog(null,"Elija una opcion");
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null,"Escriba un puerto valido");
@@ -149,6 +169,11 @@ public class Menu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Elija una opcion");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
+        //CLOSE
+        System.exit(0);
+    }//GEN-LAST:event_closeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,9 +211,11 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barra;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton close;
+    private javax.swing.JLabel fondo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;

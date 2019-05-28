@@ -13,7 +13,6 @@ import HerramientasGenetico.Seleccion.TipoSeleccion;
 import HerramientasImagenes.Almacenamiento;
 import HerramientasImagenes.Conversion;
 import HerramientasImagenes.Conversion.CanalColor;
-import HerramientasImagenes.JFrameImagen;
 import io.ImageManager;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -22,7 +21,10 @@ import javax.swing.JOptionPane;
 import Conexiones.Enviar;
 import Conexiones.RecibirIguales;
 import Conexiones.RecibirMaestro;
+import java.awt.Toolkit;
 import java.io.IOException;
+import javax.swing.Icon;
+import javax.swing.text.DefaultCaret;
 /**
  *
  * Nombres: Miguel Angel Cervantes Garcia, Juan Antonio Ovalle Patiño
@@ -40,6 +42,7 @@ public class Secundario extends javax.swing.JFrame {
     private Configuracion configuracion;
     private GeneticoDistribuidoImagenes genetico;
     private Image imagen;
+    private Icon start;
     private CanalColor canalColor;
     private RecibirMaestro receptor;
     private RecibirIguales recibirIguales;
@@ -48,11 +51,13 @@ public class Secundario extends javax.swing.JFrame {
      * @param canalColor
      * @param porto
      */
-    public Secundario(CanalColor canalColor, int porto) {
+    public Secundario(CanalColor canalColor, int porto, Image img) {
+        setUndecorated(true);
         initComponents();
+        this.setLocationRelativeTo(null);
         this.jLabel8.setText(porto+"");
         this.historial.setEditable(false);
-        this.imagen= null;
+        this.imagen= img;
         this.genetico=null;
         this.canalColor= canalColor;
         switch(canalColor){
@@ -66,6 +71,41 @@ public class Secundario extends javax.swing.JFrame {
                 this.canal.setText("Azul");
                 break;
         }
+        DefaultCaret caret = (DefaultCaret)historial.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.OUT_BOTTOM);
+        
+        Image icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/fondo2.png"));
+        Icon fond = new ImageIcon(icon.getScaledInstance(fondo.getWidth(), fondo.getHeight()+8, Image.SCALE_DEFAULT));
+        fondo.setIcon(fond);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/barra.png"));
+        Icon ba = new ImageIcon(icon.getScaledInstance(barra.getWidth(), barra.getHeight(), Image.SCALE_DEFAULT));
+        mover mml = new mover(barra);
+        barra.addMouseListener(mml);
+        barra.addMouseMotionListener(mml);
+        barra.setIcon(ba);
+        barra.setOpaque(true);
+        barra.setSize(780, 20);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/close.png"));
+        Icon clos = new ImageIcon(icon.getScaledInstance(this.close.getWidth(), this.close.getHeight(), Image.SCALE_DEFAULT));
+        close.setIcon(clos);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/play2.jpg"));
+        start = new ImageIcon(icon.getScaledInstance(jButton1.getWidth(), jButton1.getHeight(), Image.SCALE_DEFAULT));
+        jButton1.setIcon(start);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/cargar2.png"));
+        Icon cargar = new ImageIcon(icon.getScaledInstance(jButton4.getWidth(), jButton4.getHeight(), Image.SCALE_DEFAULT));
+        jButton4.setIcon(cargar);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/enviar2.jpg"));
+        Icon enviar = new ImageIcon(icon.getScaledInstance(jButton8.getWidth(), jButton8.getHeight(), Image.SCALE_DEFAULT));
+        jButton8.setIcon(enviar);
+        
+        icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/guardar2.png"));
+        Icon guardar = new ImageIcon(icon.getScaledInstance(jButton9.getWidth(), jButton9.getHeight(), Image.SCALE_DEFAULT));
+        jButton9.setIcon(guardar);
     }
 
     /**
@@ -96,7 +136,6 @@ public class Secundario extends javax.swing.JFrame {
         ip = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -104,267 +143,190 @@ public class Secundario extends javax.swing.JFrame {
         seleccionMadre = new javax.swing.JComboBox<>();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
+        close = new javax.swing.JButton();
         nombre = new javax.swing.JTextField();
         port = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
+        barra = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(generaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 111, -1));
+        getContentPane().add(sizeP, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 111, -1));
 
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Numero de Generaciones");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, 20));
 
+        canal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        canal.setForeground(new java.awt.Color(255, 255, 255));
         canal.setText("Canal Color");
+        getContentPane().add(canal, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, -1, -1));
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Numero de Indivduos");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 120, 20));
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Probabilidad de muta");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 120, 20));
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Tipo de Cruza");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 340, 120, 20));
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tipo de Seleccion");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 370, 120, 50));
+        getContentPane().add(muta, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 111, -1));
 
         cruza.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pixel", "Fila", "Columna", "Aleatorio" }));
+        getContentPane().add(cruza, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 110, -1));
 
         seleccionPadre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Torneo", "Aleatorio", "Ruleta" }));
+        getContentPane().add(seleccionPadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 110, -1));
+        getContentPane().add(mejorG, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 200, 200));
+        getContentPane().add(individuoInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 200));
 
         historial.setEditable(false);
+        historial.setBackground(new java.awt.Color(0, 0, 0));
         historial.setColumns(20);
+        historial.setForeground(new java.awt.Color(204, 204, 204));
         historial.setLineWrap(true);
         historial.setRows(5);
-        historial.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        historial.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         historial.setDragEnabled(true);
         historial.setSelectedTextColor(new java.awt.Color(255, 0, 0));
         historial.setSelectionColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(historial);
 
-        jButton1.setText("Iniciar");
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 224, 206));
+
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 360, 80, 80));
+        getContentPane().add(ip, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, 113, -1));
 
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("IP:");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, -1, 30));
 
-        jButton4.setText("Cargar Individuo");
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 80, 80));
 
-        jButton3.setText("Abrir Imagen");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
+        jButton5.setBackground(new java.awt.Color(0, 0, 255));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Fila");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 260, 55, -1));
 
+        jButton6.setBackground(new java.awt.Color(0, 255, 0));
         jButton6.setText("Columna");
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 260, -1, -1));
 
+        jButton7.setBackground(new java.awt.Color(255, 0, 0));
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("Pixel");
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 260, -1, -1));
 
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Cambiar mascara de Cruza");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, -1, 30));
 
         seleccionMadre.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Torneo", "Aleatorio", "Ruleta" }));
+        getContentPane().add(seleccionMadre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 110, -1));
 
-        jButton8.setText("Enviar Mejor");
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 360, 80, 80));
 
-        jButton9.setText("Guardar Individuo");
+        jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
             }
         });
+        getContentPane().add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 360, 80, 80));
 
-        jLabel7.setText("Puerto;");
+        close.setContentAreaFilled(false);
+        close.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeActionPerformed(evt);
+            }
+        });
+        getContentPane().add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 0, 30, 30));
+        getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 310, 119, -1));
+        getContentPane().add(port, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 310, 76, -1));
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Puerto");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, -1, 30));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Port");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, -1, -1));
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Puerto:");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, -1, -1));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, 0, 820, 470));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(seleccionPadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(seleccionMadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cruza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel8))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(sizeP)
-                                    .addComponent(generaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                                    .addComponent(muta)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(individuoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(canal)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(mejorG, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton4)
-                                .addGap(127, 127, 127))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ip, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(port, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addComponent(jButton8)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(nombre)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(canal)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel10))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(generaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sizeP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(muta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(cruza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(seleccionPadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(seleccionMadre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton5)
-                            .addComponent(jButton6)
-                            .addComponent(jButton7))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(individuoInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mejorG, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9)
-                        .addComponent(jButton8)
-                        .addComponent(port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7))
-                    .addComponent(nombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3)
-                    .addComponent(jButton9))
-                .addContainerGap())
-        );
+        barra.setBackground(new java.awt.Color(255, 255, 255));
+        barra.setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().add(barra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 770, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(this.imagen!=null){
-            if(this.jButton1.getText().equals("Iniciar")){//Si aun no esta en ejecucion el genetico
+            //if(this.jButton1.getText().equals("Iniciar")){//Si aun no esta en ejecucion el genetico
+            if(this.jButton1.getIcon().equals(start)){
                 try{
                     long gen = Integer.parseInt(this.generaciones.getText());
                     int indi= Integer.parseInt(this.sizeP.getText());
                     double muta= Double.parseDouble(this.muta.getText());
-                    this.jButton1.setText("Modificar");
+//                    this.jButton1.setText("Modificar");
+                    Image icon = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("Imagen/editar.jpg"));
+                    Icon mod = new ImageIcon(icon.getScaledInstance(jButton1.getWidth(), jButton1.getHeight(), Image.SCALE_DEFAULT));
+                    jButton1.setIcon(mod);
                     TipoCruza tp;
                     switch (this.cruza.getSelectedIndex()) {
                         case 0:
@@ -502,16 +464,6 @@ public class Secundario extends javax.swing.JFrame {
         }else JOptionPane.showMessageDialog(null,"Abra una imagen primero");
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try{
-            this.imagen=ImageManager.openImage();
-            Conversion.imagenAMatriz(imagen);
-            new JFrameImagen(this.imagen);
-        }catch(Exception e){
-            
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         if(!this.nombre.getText().isEmpty()){
             int imate[][]= this.genetico.getDefinitivo().getGenotipo();
@@ -545,6 +497,11 @@ public class Secundario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
+        //CLOSE
+        System.exit(0);
+    }//GEN-LAST:event_closeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -575,20 +532,22 @@ public class Secundario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Secundario(CanalColor.ROJO, 12345).setVisible(true);
+                new Secundario(CanalColor.ROJO, 12345, null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barra;
     private javax.swing.JLabel canal;
+    private javax.swing.JButton close;
     private javax.swing.JComboBox<String> cruza;
+    private javax.swing.JLabel fondo;
     private javax.swing.JTextField generaciones;
     private javax.swing.JTextArea historial;
     private javax.swing.JLabel individuoInicial;
     private javax.swing.JTextField ip;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
