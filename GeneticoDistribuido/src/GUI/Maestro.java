@@ -38,7 +38,7 @@ import javax.swing.text.DefaultCaret;
  * Aprendizaje: Aplicaciones para Comunicaciones de Red & Algoritmos Geneticos
  * 
  */
-public class Maestro extends javax.swing.JFrame {
+public class Maestro extends javax.swing.JFrame implements Runnable {
 
     private RecibirMaestro recibirMaestro;
     private Configuracion configuracion;
@@ -397,7 +397,7 @@ public class Maestro extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Individuo:");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(313, 400, 70, 30));
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 540));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 900, 540));
 
         barra.setBackground(new java.awt.Color(255, 255, 255));
         barra.setForeground(new java.awt.Color(255, 255, 255));
@@ -490,7 +490,7 @@ public class Maestro extends javax.swing.JFrame {
                     this.genetico.start();
                     try {
                         //Aqui va el de recibir individuos
-                        this.recibirMaestro= new RecibirMaestro(Integer.parseInt(this.jLabel8.getText()), this);
+                        this.recibirMaestro= new RecibirMaestro(Integer.parseInt(this.jLabel8.getText()),this.configuracion, this);
                         this.recibirMaestro.start();
 //                        this.recibirIguales= new RecibirIguales(this.genetico,Integer.parseInt(this.jLabel8.getText()));
 //                        this.recibirIguales.start();
@@ -604,13 +604,15 @@ public class Maestro extends javax.swing.JFrame {
                 Enviar.enviarIndididuo(this.ip.getText(), Integer.parseInt(this.port.getText()), this.genetico.getDefinitivo());
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, "Inicie el genetico");
+            }catch(NumberFormatException e){
+                
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         if(this.genetico!=null && this.verde!=null && this.azul!=null){
-            this.resultado.setIcon(new  ImageIcon(Conversion.matrizAImagenCompleta(this.genetico.getDefinitivo().getGenotipo(), this.verde.getGenotipo(),this.azul.getGenotipo()).getScaledInstance(200, 200, BufferedImage.TYPE_INT_RGB)));
+            new Thread(this).start();
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
@@ -619,6 +621,13 @@ public class Maestro extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_closeActionPerformed
 
+    @Override
+    public void run(){
+        while(true){
+            this.resultado.setIcon(new  ImageIcon(Conversion.matrizAImagenCompleta(this.genetico.getDefinitivo().getGenotipo(), this.verde.getGenotipo(),this.azul.getGenotipo()).getScaledInstance(200, 200, BufferedImage.TYPE_INT_RGB)));
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

@@ -378,7 +378,7 @@ public class Secundario extends javax.swing.JFrame {
                     this.individuoInicial.setIcon(new  ImageIcon(Conversion.matrizAImagenParcial(this.genetico.getPoblacion().getMejor().getGenotipo(), this.configuracion.getCanalColor()).getScaledInstance(200, 200, BufferedImage.TYPE_INT_RGB)));
                     this.genetico.start();
                     try{
-                        this.recibirIguales= new RecibirIguales(this.genetico,Integer.parseInt(this.jLabel8.getText()));
+                        this.recibirIguales= new RecibirIguales(this.genetico, this.configuracion,Integer.parseInt(this.jLabel8.getText()));
                         this.recibirIguales.start();
                     }catch(Exception e){
                         JOptionPane.showMessageDialog(null,"Introduzca el puerto de manera adecuada");

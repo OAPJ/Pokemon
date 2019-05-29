@@ -104,13 +104,13 @@ public class Conversion {
                 Color color;
                 switch(cc){
                     case ROJO:
-                        color= new Color(matriz[y][x],0,0);
+                        color= new Color(matriz[x][y],0,0);
                         break;
                     case AZUL:
-                        color= new Color(0,0,matriz[y][x]);
+                        color= new Color(0,0,matriz[x][y]);
                         break;
                     case VERDE:
-                        color= new Color(0,matriz[y][x],0);
+                        color= new Color(0,matriz[x][y],0);
                         break;
                     default:
                         color= new Color(0,0,0);

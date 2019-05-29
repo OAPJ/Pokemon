@@ -5,8 +5,10 @@
  */
 package Conexiones;
 
+import Genetico.Configuracion;
 import Genetico.GeneticoDistribuidoImagenes;
 import Genetico.Individuo;
+import HerramientasGenetico.Cruza;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
@@ -32,9 +34,11 @@ public class RecibirIguales extends Thread {
     private ServerSocket servidor;
     private Socket cliente;
     private int port;
+    Configuracion c;
     
-    public RecibirIguales(GeneticoDistribuidoImagenes gen, int port){
+    public RecibirIguales(GeneticoDistribuidoImagenes gen, Configuracion con, int port){
         this.port=port;
+        this.c= con;
         this.genetico=gen;
     }
     
@@ -52,6 +56,7 @@ public class RecibirIguales extends Thread {
                 Individuo i = (Individuo)ois.readObject();
                 ois.close();
                 cliente.close();
+                this.genetico.getPoblacion().addIndividuo(Cruza.cruzaAleatoria(c.getMascaraPixeles(),c.getMascaraColumnas(), this.c.getMascaraFilas(), i, this.genetico.getDefinitivo()));
                 this.genetico.getPoblacion().addIndividuo(i);
             } catch (IOException ex) {
                 Logger.getLogger(RecibirIguales.class.getName()).log(Level.SEVERE, null, ex);

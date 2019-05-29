@@ -6,8 +6,10 @@
 package Conexiones;
 
 import GUI.Maestro;
+import Genetico.Configuracion;
 import Genetico.GeneticoDistribuidoImagenes;
 import Genetico.Individuo;
+import HerramientasGenetico.Cruza;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -34,11 +36,13 @@ public class RecibirMaestro extends Thread {
     private ServerSocket servidor;
     private Socket cliente;
     private int port;
+    private Configuracion c;
     private Maestro master;
 
-    public RecibirMaestro(int port, Maestro master) {
+    public RecibirMaestro(int port, Configuracion c, Maestro master) {
         this.port=port;
         this.master=master;
+        this.c=c;
     }
     
     @Override
@@ -58,6 +62,7 @@ public class RecibirMaestro extends Thread {
                 //
                     switch(i.getCanalColor()){
                         case ROJO:
+                            this.genetico.getPoblacion().addIndividuo(Cruza.cruzaAleatoria(c.getMascaraPixeles(),c.getMascaraColumnas(), this.c.getMascaraFilas(), i, this.genetico.getDefinitivo()));
                             this.genetico.getPoblacion().addIndividuo(i);
                             break;
                         case VERDE:
